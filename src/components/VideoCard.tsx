@@ -18,6 +18,7 @@ interface VideoCardProps {
 }
 
 export default function VideoCard({
+  id,
   thumbnail,
   title,
   author,
@@ -32,7 +33,8 @@ export default function VideoCard({
   const [isSaved, setIsSaved] = useState(initialIsSaved);
   const [likesCount, setLikesCount] = useState(likes);
 
-  const handleLike = () => {
+  const handleLike = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (isLiked) {
       setLikesCount(prev => prev - 1);
     } else {
@@ -41,12 +43,20 @@ export default function VideoCard({
     setIsLiked(!isLiked);
   };
 
-  const handleSave = () => {
+  const handleSave = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsSaved(!isSaved);
   };
 
+  const handleCardClick = () => {
+    window.location.href = `/#/video/${id}`;
+  };
+
   return (
-    <Card className="overflow-hidden group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary animate-fade-in">
+    <Card 
+      className="overflow-hidden group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary animate-fade-in cursor-pointer"
+      onClick={handleCardClick}
+    >
       <div className="relative aspect-[9/16] bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 overflow-hidden">
         <img 
           src={thumbnail} 
